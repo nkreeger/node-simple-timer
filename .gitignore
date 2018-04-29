@@ -1,0 +1,8 @@
+*.csv
+*_pitches.json
+*.gz
+build/
+dist/
+deps/tensorflow/include/*
+deps/tensorflow/lib/*
+node_modules/
