@@ -2,25 +2,38 @@ export class Timer {
   protected hrStart: [number, number];
   protected hrEnd: [number, number];
 
-  reset() {
+  constructor(autoStart = false) {
+    this.reset();
+
+    if (autoStart) {
+      this.start();
+    }
+  }
+
+  reset(): Timer {
     this.hrStart = null;
     this.hrEnd = null;
+    return this;
   }
 
-  start() {
+  start(): Timer {
     this.hrEnd = null;
     this.hrStart = process.hrtime();
+    return this;
   }
 
-  end() {
+  end(): Timer {
     if (this.hrStart === null) {
       throw new Error('End() called before start()');
     }
     this.hrEnd = process.hrtime(this.hrStart);
+    return this;
   }
 
   nanoseconds(): number {
-    return (this.hrEnd[0] * 1e9) + this.hrEnd[1];
+    const start = this.hrStart !== null ? this.hrStart : process.hrtime();
+    const end = this.hrEnd !== null ? this.hrEnd : process.hrtime(start);
+    return (end[0] * 1e9) + end[1];
   }
 
   milliseconds(): number {
